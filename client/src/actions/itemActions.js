@@ -6,11 +6,11 @@ import * as types from './types';
 
 // const getSampleData = () => {
 //     return [
-//         { id: uuid(), name: "Eggs", date: moment.utc().format() },
-//         { id: uuid(), name: "Bacon", date: moment.utc().format() },
-//         { id: uuid(), name: "HP Sauce", date: moment.utc().format() },
-//         { id: uuid(), name: "Bread", date: moment.utc().format() },
-//         { id: uuid(), name: "Potatoes", date: moment.utc().format() }
+//         { _id: uuid(), name: "Eggs", date: moment.utc().format() },
+//         { _id: uuid(), name: "Bacon", date: moment.utc().format() },
+//         { _id: uuid(), name: "HP Sauce", date: moment.utc().format() },
+//         { _id: uuid(), name: "Bread", date: moment.utc().format() },
+//         { _id: uuid(), name: "Potatoes", date: moment.utc().format() }
 //     ];
 // }
 

@@ -2,7 +2,7 @@ import * as types from '../actions/types';
 
 const initialState = {
     token: localStorage.token,
-    isAuthenticted: false,
+    isAuthenticated: false,
     isLoading: false,
     user: null
 };
@@ -21,6 +21,7 @@ export default (state = initialState, action) => {
             };
         case types.REGISTER_SUCCESS:
         case types.LOGIN_SUCCESS:
+            console.log("success");
             localStorage.setItem("token", action.payload.token);
             return {
                 ...state,

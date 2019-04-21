@@ -9,9 +9,15 @@ import ShoppingList from './components/ShoppingList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
+import { loadUser } from './actions/authActions';
+
 const store = storeConfig();
 
 class App extends Component {
+  componentDidMount = () => {
+    store.dispatch(loadUser());
+  };
+
   render() {
     return (
       <Provider store={store}>

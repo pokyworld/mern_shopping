@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import * as actions from '../actions/itemActions';
+import * as actions from '../actions';
 import { selectItems } from '../selectors';
 
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';

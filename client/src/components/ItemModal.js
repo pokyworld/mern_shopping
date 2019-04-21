@@ -5,7 +5,7 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 
-import * as actions from '../actions/itemActions';
+import * as actions from '../actions';
 import { selectItems } from '../selectors';
 
 export class ItemModal extends Component {

@@ -14,7 +14,7 @@ import * as types from './types';
 //     ];
 // }
 
-export const setItemsLoading = (value) => ({
+export const setItemsLoading = (value = true) => ({
     type: types.ITEMS_LOADING,
     payload: value
 });
@@ -40,7 +40,10 @@ export const addItem = ({ name }) => dispatch => {
                 payload: res.data
             })
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log(err);
+            dispatch(setItemsLoading(false));
+        });
 };
 
 export const deleteItem = (_id) => dispatch => {
@@ -54,7 +57,10 @@ export const deleteItem = (_id) => dispatch => {
                 })
             }
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log(err);
+            dispatch(setItemsLoading(false));
+        });
 };
 
 // export const addSampleData = () => ({

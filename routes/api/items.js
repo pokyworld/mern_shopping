@@ -13,11 +13,11 @@ router.get('/', (req, res) => {
         .then(items => res.json(items))
 });
 
-// @route   GET api/items/:id
+// @route   GET api/items/:_id
 // @desc    Get specified item
 // @access  Public
-router.get('/:id', (req, res) => {
-    Item.findById(req.params.id)
+router.get('/:_id', (req, res) => {
+    Item.findById(req.params._id)
         .then(items => res.json(items))
 });
 
@@ -31,11 +31,11 @@ router.post('/', (req, res) => {
     newItem.save().then(item => res.json(item));
 });
 
-// @route   DELETE api/items/:id
+// @route   DELETE api/items/:_id
 // @desc    Delete an item
 // @access  Public
 router.delete('/:id', (req, res) => {
-    Item.findById(req.params.id)
+    Item.findById(req.params._id)
         .then(item => item.remove().then(() => res.json({ success: true })))
         .catch(err => res.status(404).json({ success: false }));
 });

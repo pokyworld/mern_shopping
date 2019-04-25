@@ -1,18 +1,9 @@
-// import uuid from 'uuid';
 import moment from 'moment';
 import axios from 'axios';
 
 import * as types from './types';
-
-// const getSampleData = () => {
-//     return [
-//         { _id: uuid(), name: "Eggs", date: moment.utc().format() },
-//         { _id: uuid(), name: "Bacon", date: moment.utc().format() },
-//         { _id: uuid(), name: "HP Sauce", date: moment.utc().format() },
-//         { _id: uuid(), name: "Bread", date: moment.utc().format() },
-//         { _id: uuid(), name: "Potatoes", date: moment.utc().format() }
-//     ];
-// }
+import { tokenConfig } from './authActions';
+import { getErrors } from './errorActions';
 
 export const setItemsLoading = (value = true) => ({
     type: types.ITEMS_LOADING,
@@ -27,43 +18,44 @@ export const getItems = () => dispatch => {
                 type: types.GET_ITEMS,
                 payload: res.data
             });
-        })
-        .catch(err => console.log(err));
-};
-
-export const addItem = ({ name }) => dispatch => {
-    dispatch(setItemsLoading(true));
-    axios.post('/api/items', { name, date: moment().format() })
-        .then(res => {
-            dispatch({
-                type: types.ADD_ITEM,
-                payload: res.data
-            })
+            dispatch(setItemsLoading(false));
         })
         .catch(err => {
-            console.log(err);
+            dispatch(getErrors(err.response.data, err.response.status))
             dispatch(setItemsLoading(false));
         });
 };
 
-export const deleteItem = (_id) => dispatch => {
+export const addItem = ({ name }) => (dispatch, getState) => {
     dispatch(setItemsLoading(true));
-    axios.delete(`/api/items/${_id}`)
+    axios.post('/api/items', { name, date: moment().format() }, tokenConfig(getState))
+        .then(res => {
+            dispatch({
+                type: types.ADD_ITEM,
+                payload: res.data
+            });
+            dispatch(setItemsLoading(false));
+        })
+        .catch(err => {
+            dispatch(getErrors(err.response.data, err.response.status))
+            dispatch(setItemsLoading(false));
+        });
+};
+
+export const deleteItem = (_id) => (dispatch, getState) => {
+    dispatch(setItemsLoading(true));
+    axios.delete(`/api/items/${_id}`, tokenConfig(getState))
         .then(res => {
             if (res.data.success === true) {
                 dispatch({
                     type: types.DELETE_ITEM,
                     payload: _id
-                })
+                });
+                dispatch(setItemsLoading(false));
             }
         })
         .catch(err => {
-            console.log(err);
+            dispatch(getErrors(err.response.data, err.response.status))
             dispatch(setItemsLoading(false));
         });
 };
-
-// export const addSampleData = () => ({
-//     type: types.ADD_SAMPLE_DATA,
-//     payload: getSampleData()
-// });

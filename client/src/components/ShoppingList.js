@@ -33,7 +33,7 @@ export class ShoppingList extends Component {
 
     render() {
         // const { items } = this.props.item;
-        const { selectItems } = this.props;
+        const { isAuthenticated, selectItems } = this.props;
 
         return (
             <Fragment>
@@ -53,12 +53,14 @@ export class ShoppingList extends Component {
                                     >
                                         <ListGroupItem
                                         >
-                                            <Button
-                                                color="danger"
-                                                className="remove-btn"
-                                                size="sm"
-                                                onClick={() => this.onDeleteClick(_id)}
-                                            >&times;</Button>
+                                            {isAuthenticated &&
+                                                <Button
+                                                    color="danger"
+                                                    className="remove-btn"
+                                                    size="sm"
+                                                    onClick={() => this.onDeleteClick(_id)}
+                                                >&times;</Button>
+                                            }
                                             {name}
                                         </ListGroupItem>
                                     </CSSTransition>
@@ -72,11 +74,13 @@ export class ShoppingList extends Component {
     }
 }
 ShoppingList.props = {
-    item: PropTypes.object.isRequired,
+    isAuthenticated: PropTypes.bool,
+    item: PropTypes.object,
     selectItems: PropTypes.object.isRequired
 };
 
-const mapStateToProps = ({ item }) => ({
+const mapStateToProps = ({ auth, item }) => ({
+    isAuthenticated: auth.isAuthenticated,
     item, selectItems: selectItems(item.items)
 });
 

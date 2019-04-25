@@ -35,7 +35,7 @@ router.post('/', auth, (req, res) => {
 // @route   DELETE api/items/:_id
 // @desc    Delete an item
 // @access  Protected
-router.delete('/:id', auth, (req, res) => {
+router.delete('/:_id', auth, (req, res) => {
     Item.findById(req.params._id)
         .then(item => item.remove().then(() => res.json({ success: true })))
         .catch(err => res.status(404).json({ success: false }));

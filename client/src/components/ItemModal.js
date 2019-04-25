@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter,
     Form, FormGroup, Label, Input
 } from 'reactstrap';
-import { connect } from 'react-redux';
 
 import * as actions from '../actions';
 import { selectItems } from '../selectors';
@@ -23,35 +23,45 @@ export class ItemModal extends Component {
     };
 
     render() {
+        const { isAuthenticated } = this.props;
         return (
             <div>
-                <Button color="dark" className="m-3" onClick={this.toggle}>{this.props.buttonLabel}</Button>
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>{this.props.modalTitle}</ModalHeader>
-                    <ModalBody>
-                        <Form onSubmit={this.onSubmit}>
-                            <FormGroup>
-                                <Label for="item">Item</Label>
-                                <Input
-                                    type="text"
-                                    name="name"
-                                    id="item"
-                                    placeholder="Name of Item"
-                                    onChange={this.onChange}
-                                // autoFocus={true}
-                                />
-                            </FormGroup>
-                        </Form>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                        <Button color="success" onClick={this.onSubmit}>Add Item</Button>{' '}
-                    </ModalFooter>
-                </Modal>
+                {isAuthenticated ? (
+                    <Fragment>
+                        <Button color="dark" className="mt-3 mb-3" onClick={this.toggle}>{this.props.buttonLabel}</Button>
+                        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                            <ModalHeader toggle={this.toggle}>{this.props.modalTitle}</ModalHeader>
+                            <ModalBody>
+                                <Form onSubmit={this.onSubmit}>
+                                    <FormGroup>
+                                        <Label for="item">Item</Label>
+                                        <Input
+                                            type="text"
+                                            name="name"
+                                            id="item"
+                                            placeholder="Name of Item"
+                                            onChange={this.onChange}
+                                            autoComplete="item"
+                                        />
+                                    </FormGroup>
+                                </Form>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="success" onClick={this.onSubmit} block>Add Item</Button>{' '}
+                            </ModalFooter>
+                        </Modal>
+                    </Fragment>
+                ) : (
+                        <h5 className="mt-3 mb-3">Login to Edit list</h5>
+                    )}
             </div>
         )
     }
 }
 
-const mapStateToProps = ({ item }) => ({ item, selectItems: selectItems(item.items) })
+const mapStateToProps = ({ auth, item }) => ({
+    isAuthenticated: auth.isAuthenticated,
+    item,
+    selectItems: selectItems(item.items)
+})
 export default connect(mapStateToProps)(ItemModal);

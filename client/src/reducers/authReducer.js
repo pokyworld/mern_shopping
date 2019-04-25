@@ -21,7 +21,6 @@ export default (state = initialState, action) => {
             };
         case types.REGISTER_SUCCESS:
         case types.LOGIN_SUCCESS:
-            console.log("success");
             localStorage.setItem("token", action.payload.token);
             return {
                 ...state,
@@ -33,6 +32,8 @@ export default (state = initialState, action) => {
         case types.LOGIN_FAIL:
         case types.REGISTER_FAIL:
             localStorage.removeItem("token");
+            return { ...initialState, token: null };
+        case types.LOGOUT:
             return { ...initialState, token: null };
 
         default: return state;
